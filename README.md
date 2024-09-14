@@ -112,12 +112,12 @@ The Job Board Simple Application is designed to connect job seekers with employe
 
 ### Job Seekers
 
--Can search and apply for jobs.
--Can update their personal profiles.
+- Can search and apply for jobs.
+- Can update their personal profiles.
 
 ### Employers
--Can post job listings.
--Can view and manage job applications.
+- Can post job listings.
+- Can view and manage job applications.
 
 
 ## API Endpoints
