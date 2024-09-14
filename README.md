@@ -29,22 +29,22 @@ The Job Board Simple Application is designed to connect job seekers with employe
 
 
 ### Job Seekers
-    -Search and apply for job listings.
-    -View and update their profile.
-    -Track application status.
+-Search and apply for job listings.
+-View and update their profile.
+-Track application status.
 
 ### Employers
 
-    -Post new job listings.
-    =View and manage job applications.
-    =Update their company profile.
+-Post new job listings.
+-View and manage job applications.
+-Update their company profile.
 
 
 
 ### General Features
-    -User authentication and role management.
-    -Responsive design for various devices.
-    -Error handling and logging.
+-User authentication and role management.
+-Responsive design for various devices.
+-Error handling and logging.
 
 
 
@@ -56,7 +56,7 @@ The Job Board Simple Application is designed to connect job seekers with employe
 - **Backend**: .NET Core
 - **Frontend**: None/yet
 - **Database**: SQL Server
-- **Authentication**:
+- **Authentication**: JWT
 - **Hosting**: Azure
 - **Version Control**: Git
 
@@ -106,13 +106,6 @@ The Job Board Simple Application is designed to connect job seekers with employe
 
 
 
-## Usage
-
-
-
-1.  Open your browser and navigate to `http://localhost:3000` for the frontend application.
-2.  Use `http://localhost:5000` for API endpoints.
-
 
 
 ## User Roles
@@ -121,10 +114,12 @@ The Job Board Simple Application is designed to connect job seekers with employe
 
 ### Job Seekers
 
-
+-Can search and apply for jobs.
+-Can update their personal profiles.
 
 ### Employers
-
+-Can post job listings.
+-Can view and manage job applications.
 
 
 ## API Endpoints
@@ -459,17 +454,11 @@ Contributions are welcome! Please follow these steps:
 
 
 
-## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 
 
 ## Contact
 
 For any questions or suggestions, please contact:
-
-
-
-- Name:
-- Email:
+[Abd Khuffash](https://www.linkedin.com/in/khuffash1337/)
