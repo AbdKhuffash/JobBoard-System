@@ -1,0 +1,97 @@
+name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:r)
+trigger:
+  - main
+variables:
+  REPOROOT: $(Build.SourcesDirectory)
+  OUTPUTROOT: $(REPOROOT)\out
+  BuildSolution: $(Build.SourcesDirectory)\JobBoardApp\JobBoardApp.sln
+stages:
+  - stage: build
+    jobs:
+      - job: main
+        pool:
+          vmImage: 'windows-latest'
+        variables:
+          - name: ob_outputDirectory
+            value: "$(OUTPUTROOT)"
+          - name: ENV_NAME
+            value: development
+          - name: buildConfiguration
+            value: release
+        steps:
+          - script: echo '$(Build.BuildNumber)' # outputs customized build number
+
+          # Install .NET SDK
+          - task: UseDotNet@2  
+            inputs:
+              packageType: 'sdk'
+              version: '8.x' # Use appropriate .NET version
+
+          # Restore NuGet packages
+          - task: DotNetCoreCLI@2
+            displayName: "DotNetCore restore"
+            inputs:
+              command: "restore"
+              projects: $(BuildSolution)
+
+          # **Build the solution**
+          - task: DotNetCoreCLI@2
+            displayName: "Build solution"
+            inputs:
+              command: "build"
+              projects: $(BuildSolution)
+              arguments: '--configuration $(buildConfiguration)'
+
+          # Run unit tests
+          - task: DotNetCoreCLI@2
+            displayName: Run unit tests
+            inputs:
+              command: "test"
+              projects: $(BuildSolution)
+              arguments: '--no-build --no-restore --configuration $(buildConfiguration) --logger trx --blame --collect "XPlat Code Coverage" --results-directory $(Build.SourcesDirectory)\TestResults\'
+              publishTestResults: false
+
+          # Publish code coverage results
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: '$(REPOROOT)\coveragereport\Cobertura.xml'
+              failIfCoverageEmpty: false
+
+          # Publish test results
+          - task: PublishTestResults@2
+            displayName: "Publishing Unit Tests Results"
+            condition: succeededOrFailed()
+            inputs:
+              testRunner: VSTest
+              testResultsFiles: '$(REPOROOT)\TestResults\**\*.trx'
+              mergeTestResults: true
+              testRunTitle: "Unit-tests"
+              failTaskOnFailedTests: true
+              searchFolder: "$(Agent.TempDirectory)"
+
+          # Publish the application
+          - task: DotNetCoreCLI@2
+            displayName: "Publish Application"
+            inputs:
+              command: "publish"
+              projects: $(Build.SourcesDirectory)\JobBoardApp\JobBoardApp.csproj
+              publishWebProjects: false
+              arguments: '--configuration $(buildConfiguration) --output $(ob_outputDirectory)'
+
+          # Unzip the application files
+          - task: ExtractFiles@1
+            displayName: 'Unzip JobBoardApp'
+            inputs:
+              archiveFilePatterns: '$(ob_outputDirectory)\JobBoardApp.zip'
+              destinationFolder: '$(ob_outputDirectory)\JobBoardApp'
+              cleanDestinationFolder: true
+
+          # Copy files to the final output directory
+          - task: CopyFiles@2
+            displayName: "Copy Files to:$(ob_outputDirectory)/JobBoardApp"
+            inputs:
+              SourceFolder: '$(ob_outputDirectory)\JobBoardApp'
+              Contents: |
+                **\*.*
+              TargetFolder: "$(ob_outputDirectory)/FinalJobBoardApp"
