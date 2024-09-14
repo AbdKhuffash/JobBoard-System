@@ -27,22 +27,22 @@ The Job Board Simple Application is designed to connect job seekers with employe
 
 
 ### Job Seekers
--Search and apply for job listings.
--View and update their profile.
--Track application status.
+- Search and apply for job listings.
+- View and update their profile.
+- Track application status.
 
 ### Employers
 
--Post new job listings.
--View and manage job applications.
--Update their company profile.
+- Post new job listings.
+- View and manage job applications.
+- Update their company profile.
 
 
 
 ### General Features
--User authentication and role management.
--Responsive design for various devices.
--Error handling and logging.
+- User authentication and role management.
+- Responsive design for various devices.
+- Error handling and logging.
 
 
 
