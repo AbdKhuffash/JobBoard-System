@@ -15,7 +15,6 @@ The Job Board Simple Application is designed to connect job seekers with employe
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
 - [User Roles](#user-roles)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
